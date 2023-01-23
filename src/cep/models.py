@@ -2,7 +2,7 @@ from sqlalchemy import Column, String, DateTime
 from ..config.database import Base
 
 
-class LocalidadeModel(Base):
+class LocalityModel(Base):
     __tablename__ = 'localidades'
 
     cep = Column(String, primary_key=True, index=True)

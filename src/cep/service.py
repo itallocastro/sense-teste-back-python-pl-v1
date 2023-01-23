@@ -1,23 +1,27 @@
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
-from .schemas import LocalidadeSchema
-from .repository import criar_localidade, pegar_localidades
+from .schemas import LocalitySchema
+from .repository import create_locality, get_all_places
 import os
 import httpx
 
 URL_VIA_CEP = os.environ["URL_VIA_CEP"]
 
 
-def get_todas_localidades_service(db: Session, uf: str | None):
-    return pegar_localidades(db, uf)
+def get_all_places_service(db: Session, uf: str | None):
+    try:
+        return get_all_places(db, uf)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail='Houve um problema, tente novamente!')
 
-def get_localidade_service(db: Session, cep: str):
+
+def get_locality_service(db: Session, cep: str):
     try:
         r = httpx.get(f'{URL_VIA_CEP}/{cep}/json')
         result = r.json()
         if "erro" in result:
             raise HTTPException(status_code=404, detail='Cep não encontrado')
-        localidade = criar_localidade(db, LocalidadeSchema(**result))
-        return localidade
+        locality = create_locality(db, LocalitySchema(**result))
+        return locality
     except Exception as e:
         raise HTTPException(status_code=400, detail='Houve um problema, tente novamente!')

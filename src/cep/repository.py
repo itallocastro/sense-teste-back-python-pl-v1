@@ -1,25 +1,25 @@
 from sqlalchemy.orm import Session
-from .models import LocalidadeModel
-from .schemas import LocalidadeSchema, LocalidadesSchema
+from .models import LocalityModel
+from .schemas import LocalitySchema
 
 
-def existe_localidade(db: Session, cep: str):
-    return db.query(LocalidadeModel).filter(LocalidadeModel.cep == cep).first()
+def get_locality(db: Session, cep: str):
+    return db.query(LocalityModel).filter(LocalityModel.cep == cep).first()
 
 
-def pegar_localidades(db: Session, uf: str | None = None):
-    query = db.query(LocalidadeModel)
+def get_all_places(db: Session, uf: str | None = None):
+    query = db.query(LocalityModel)
     if uf:
-        query = query.filter(LocalidadeModel.uf == uf)
+        query = query.filter(LocalityModel.uf == uf)
     return {"localidades": query.all()}
 
 
-def criar_localidade(db: Session, localidade: LocalidadeSchema):
-    localidade_existe = existe_localidade(db, localidade.cep)
-    if localidade_existe:
-        return localidade_existe
-    db_localidade = LocalidadeModel(**localidade.dict())
-    db.add(db_localidade)
+def create_locality(db: Session, locality: LocalitySchema):
+    exists_locality = get_locality(db, locality.cep)
+    if exists_locality:
+        return exists_locality
+    db_locality = LocalityModel(**locality.dict())
+    db.add(db_locality)
     db.commit()
-    db.refresh(db_localidade)
-    return db_localidade
+    db.refresh(db_locality)
+    return db_locality

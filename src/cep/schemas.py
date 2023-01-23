@@ -4,11 +4,11 @@ from pydantic import BaseModel
 from typing import List
 
 
-class LocalidadeBaseSchema(BaseModel):
+class LocalityBaseSchema(BaseModel):
     cep: str
 
 
-class LocalidadeSchema(LocalidadeBaseSchema):
+class LocalitySchema(LocalityBaseSchema):
     uf: str
     localidade: str
     logradouro: str
@@ -18,7 +18,8 @@ class LocalidadeSchema(LocalidadeBaseSchema):
         orm_mode = True
 
 
-class LocalidadesSchema(BaseModel):
-    localidades: List[LocalidadeSchema]
+class PlacesSchema(BaseModel):
+    localidades: List[LocalitySchema]
+
     class Config:
         orm_mode = True
