@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from .models import LocalityModel
-from .schemas import LocalitySchema
+from .schemas import LocalityCreateSchema
 
 
 def get_locality(db: Session, cep: str):
@@ -14,7 +14,7 @@ def get_all_places(db: Session, uf: str | None = None):
     return {"localidades": query.all()}
 
 
-def create_locality(db: Session, locality: LocalitySchema):
+def create_locality(db: Session, locality: LocalityCreateSchema):
     exists_locality = get_locality(db, locality.cep)
     if exists_locality:
         return exists_locality

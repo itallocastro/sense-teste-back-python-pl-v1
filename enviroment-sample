@@ -1,0 +1,3 @@
+# Create file .env and set this attributes
+DATABASE_URL=
+URL_VIA_CEP=
