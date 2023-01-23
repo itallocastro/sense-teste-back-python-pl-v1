@@ -1,9 +1,9 @@
+import os
+import httpx
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 from .schemas import LocalityCreateSchema
 from .repository import create_locality, get_all_places
-import os
-import httpx
 
 URL_VIA_CEP = os.environ["URL_VIA_CEP"]
 
